@@ -7,7 +7,8 @@ const Menubar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { openSignIn, openSignUp } = useClerk();
   const { user } = useUser();
-
+  
+ 
   const openRegister = () => openSignUp();
   const openLogin = () => openSignIn();
 
@@ -47,6 +48,7 @@ const Menubar = () => {
                    <img src={assets.credits} alt="credits" height={24} width={24} />
                    <p className="text-xs sm:text-sm font-medium text-gray-600">Credits: 0</p>
                 </button>
+                
                 <p className="text-gray-600 max-sm:hidden">
                     Hi, {user?.fullName}!
                 </p>

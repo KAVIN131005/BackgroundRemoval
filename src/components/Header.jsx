@@ -20,7 +20,7 @@ const Header = () => {
       {/* Right side: Text Content */}
       <div className="order-1 md:order-2">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-            The Fastest  <span classNme ="text-indigo-700">Background Remover</span>
+            The Fastest  <span className ="text-indigo-700">Background Remover</span>
         </h1>
         <p className="text-gray-600 mb-8 text-lg leading-relaxed">
              Explore before and after images in our interactive slider to see the magic of 
