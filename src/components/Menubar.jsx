@@ -1,20 +1,29 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { assets } from "../assets/assets.js";
 import { Menu, X } from "lucide-react";
-import { SignedOut, SignedIn, UserButton, useClerk, useUser } from "@clerk/clerk-react";
+import {
+  SignedOut,
+  SignedIn,
+  UserButton,
+  useClerk,
+  useUser,
+} from "@clerk/clerk-react";
+import { AppContext } from "../context/AppContext.jsx";
 
 const Menubar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { openSignIn, openSignUp } = useClerk();
   const { user } = useUser();
-  
- 
+  const { credits } = useContext(AppContext);
+
+  console.log("📦 Context credits in Menubar:", credits);
+
   const openRegister = () => openSignUp();
   const openLogin = () => openSignIn();
 
   return (
     <nav className="bg-white px-8 py-4 flex justify-between items-center relative">
-      {/* Left side: logo + text */}
+      {/* Logo section */}
       <div className="flex items-center space-x-2">
         <img
           src={assets.logo}
@@ -26,7 +35,7 @@ const Menubar = () => {
         </span>
       </div>
 
-      {/* Right side: auth buttons OR profile icon */}
+      {/* Desktop Auth Buttons */}
       <div className="hidden md:flex items-center space-x-4">
         <SignedOut>
           <button
@@ -42,29 +51,32 @@ const Menubar = () => {
             Sign up
           </button>
         </SignedOut>
+
         <SignedIn>
-            <div className="flex items-center gap-2 sm:gap-3">
-                <button className="flex items-center gap-2 bg-blue-100 px-4 sm:px-5 py-1.5 sm:py-2.5 rounded-full hover:scale-105 transition-all duration-500 cursor-pointer">
-                   <img src={assets.credits} alt="credits" height={24} width={24} />
-                   <p className="text-xs sm:text-sm font-medium text-gray-600">Credits: 0</p>
-                </button>
-                
-                <p className="text-gray-600 max-sm:hidden">
-                    Hi, {user?.fullName}!
-                </p>
-            </div>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <button className="flex items-center gap-2 bg-blue-100 px-4 sm:px-5 py-1.5 sm:py-2.5 rounded-full hover:scale-105 transition-all duration-500 cursor-pointer">
+              <img src={assets.credits} alt="credits" height={24} width={24} />
+              <p className="text-xs sm:text-sm font-medium text-gray-600">
+                Credits: {credits ?? 0}
+              </p>
+            </button>
+
+            <p className="text-gray-600 max-sm:hidden">
+              Hi, {user?.fullName}!
+            </p>
+          </div>
           <UserButton />
         </SignedIn>
       </div>
 
-      {/* Mobile menu toggle */}
+      {/* Mobile Toggle */}
       <div className="flex md:hidden">
         <button onClick={() => setMenuOpen(!menuOpen)}>
           {menuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
-      {/* Mobile dropdown menu */}
+      {/* Mobile Dropdown */}
       {menuOpen && (
         <div className="absolute top-16 right-8 bg-white shadow-md rounded-md flex flex-col space-y-2 p-4 w-40 z-50">
           <SignedOut>
@@ -87,13 +99,15 @@ const Menubar = () => {
               Sign up
             </button>
           </SignedOut>
-          <SignedIn>
-            <div className="flex items-center gap-2 sm:gap-3">
-                <button className="flex items-center gap-2 bg-blue-100 px-4 py-1.5 sm:py-2.5 rounded-full hover:scale-105 transition-all duration-500 cursor-pointer">
-                    <img src={assets.credits} alt="credits" height={24} width={24} />  
-                      <p className="text-xs sm:text-sm font-medium text-gray-600">Credits: 0</p>
 
-                </button>
+          <SignedIn>
+            <div className="flex items-center gap-2">
+              <button className="flex items-center gap-2 bg-blue-100 px-4 py-1.5 rounded-full hover:scale-105 transition-all duration-500 cursor-pointer">
+                <img src={assets.credits} alt="credits" height={24} width={24} />
+                <p className="text-xs sm:text-sm font-medium text-gray-600">
+                  Credits: {credits ?? 0}
+                </p>
+              </button>
             </div>
             <div className="px-2">
               <UserButton />

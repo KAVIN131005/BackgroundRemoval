@@ -8,7 +8,7 @@ const UserSyncHandler = () => {
   const { isLoaded, isSignedIn, getToken } = useAuth();
   const { user } = useUser();
   const [synced, setSynced] = useState(false);
-  const { backendUrl } = useContext(AppContext);
+  const { backendUrl ,loadUserCredits} = useContext(AppContext);3
 
   useEffect(() => {
     const saveUser = async () => {
@@ -38,8 +38,8 @@ const UserSyncHandler = () => {
 });
 
         setSynced(true); // Avoid repeating the sync
-        console.log("User synced successfully");
-        // TODO: update user credits or trigger refresh here
+       await loadUserCredits(); // Load user credits after sync
+       
       } catch (error) {
         console.error("User sync failed", error);
         toast.error("User sync failed. Please try again.");
@@ -47,7 +47,7 @@ const UserSyncHandler = () => {
     };
 
     saveUser();
-  }, [isLoaded, isSignedIn, getToken, user, synced, backendUrl]);
+  }, [isLoaded, isSignedIn, getToken, user, synced, backendUrl, loadUserCredits]);
 
   // No UI, this component only handles syncing user info
   return null;
